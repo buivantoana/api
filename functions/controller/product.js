@@ -120,7 +120,7 @@ async function getOneProduct(req, res) {
 async function getAllProduct(req, res) {
   try {
     const page = Number(req.query?.page);
-    const size = Number(req.query?.size) || 2;
+    const size = Number(req.query?.size) || 5;
     const count = await product.countDocuments();
 
     const data = await product
@@ -130,7 +130,7 @@ async function getAllProduct(req, res) {
       .limit(size);
 
     if (!data || !data[0]) {
-      return res.status(400).json({
+      return res.status(200).json({
         status: 1,
         message: "getone false",
       });
@@ -144,7 +144,7 @@ async function getAllProduct(req, res) {
       size,
     });
   } catch (error) {
-    return res.status(400).json({
+    return res.status(200).json({
       status: 1,
       message: error,
     });
@@ -226,7 +226,7 @@ async function getSearchDebouceProduct(req, res) {
     const data = await product
       .find({ title: { $regex: regex } })
       .populate("categoryId");
-    
+
     if (!data || !data[0]) {
       return res.status(200).json({
         status: 1,
